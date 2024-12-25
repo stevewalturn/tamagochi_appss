@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:gap/gap.dart';
 import 'package:stacked/stacked.dart';
-
 import 'package:tamagochi_appss/ui/views/startup/startup_viewmodel.dart';
 
 class StartupView extends StackedView<StartupViewModel> {
@@ -14,26 +12,46 @@ class StartupView extends StackedView<StartupViewModel> {
     StartupViewModel viewModel,
     Widget? child,
   ) {
-    return const Scaffold(
+    return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
+            const Text(
               'TamagochiAppss',
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.w900),
+              style: TextStyle(
+                fontSize: 40,
+                fontWeight: FontWeight.w900,
+                color: Colors.purple,
+              ),
             ),
-            Row(
+            const SizedBox(height: 20),
+            Text(
+              '🐱 🐶 🐦 🐠 🐹',
+              style: TextStyle(fontSize: 40),
+            ),
+            const SizedBox(height: 30),
+            if (viewModel.modelError != null)
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text(
+                  viewModel.modelError.toString(),
+                  style: const TextStyle(color: Colors.red),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            const Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Loading ...', style: TextStyle(fontSize: 16)),
-                Gap(10),
+                Text('Loading your pets', style: TextStyle(fontSize: 16)),
+                SizedBox(width: 10),
                 SizedBox(
                   width: 16,
                   height: 16,
                   child: CircularProgressIndicator(
-                    color: Colors.black,
-                    strokeWidth: 6,
+                    color: Colors.purple,
+                    strokeWidth: 3,
                   ),
                 ),
               ],
@@ -45,10 +63,7 @@ class StartupView extends StackedView<StartupViewModel> {
   }
 
   @override
-  StartupViewModel viewModelBuilder(
-    BuildContext context,
-  ) =>
-      StartupViewModel();
+  StartupViewModel viewModelBuilder(BuildContext context) => StartupViewModel();
 
   @override
   void onViewModelReady(StartupViewModel viewModel) => SchedulerBinding.instance
