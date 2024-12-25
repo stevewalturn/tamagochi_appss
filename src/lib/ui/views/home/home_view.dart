@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:stacked/stacked.dart';
-
+import 'package:tamagochi_appss/ui/common/ui_helpers.dart';
+import 'package:tamagochi_appss/ui/widgets/pet_action_buttons.dart';
+import 'package:tamagochi_appss/ui/widgets/pet_animation.dart';
+import 'package:tamagochi_appss/ui/widgets/pet_status_bar.dart';
 import 'package:tamagochi_appss/ui/views/home/home_viewmodel.dart';
 
 class HomeView extends StackedView<HomeViewModel> {
@@ -14,61 +16,49 @@ class HomeView extends StackedView<HomeViewModel> {
     Widget? child,
   ) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Gap(50),
-                Column(
-                  children: [
-                    const Text(
-                      'Hello from STEVE x STACKED!',
-                      style: TextStyle(
-                        fontSize: 35,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                    const Gap(25),
-                    MaterialButton(
-                      color: Colors.black,
-                      onPressed: viewModel.incrementCounter,
-                      child: Text(
-                        viewModel.counterLabel,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ],
+          child: Column(
+            children: [
+              verticalSpaceLarge,
+              if (viewModel.modelError != null)
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.red[100],
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    viewModel.modelError.toString(),
+                    style: const TextStyle(color: Colors.red),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    MaterialButton(
-                      color: Colors.grey,
-                      onPressed: viewModel.showDialog,
-                      child: const Text(
-                        'Show Dialog',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    MaterialButton(
-                      color: Colors.grey,
-                      onPressed: viewModel.showBottomSheet,
-                      child: const Text(
-                        'Show Bottom Sheet',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
+              if (viewModel.pet != null) ...[
+                Text(
+                  viewModel.pet!.name,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                verticalSpaceMedium,
+                PetAnimation(pet: viewModel.pet!),
+                verticalSpaceMedium,
+                PetStatusBar(pet: viewModel.pet!),
+                verticalSpaceLarge,
+                PetActionButtons(
+                  pet: viewModel.pet!,
+                  onFeed: viewModel.feedPet,
+                  onPlay: viewModel.playWithPet,
+                  onSleep: viewModel.putPetToSleep,
+                  onStats: viewModel.showPetStats,
                 ),
               ],
-            ),
+              const Spacer(),
+            ],
           ),
         ),
       ),
@@ -76,8 +66,8 @@ class HomeView extends StackedView<HomeViewModel> {
   }
 
   @override
-  HomeViewModel viewModelBuilder(
-    BuildContext context,
-  ) =>
-      HomeViewModel();
+  HomeViewModel viewModelBuilder(BuildContext context) => HomeViewModel();
+
+  @override
+  void onViewModelReady(HomeViewModel viewModel) => viewModel.initialize();
 }
