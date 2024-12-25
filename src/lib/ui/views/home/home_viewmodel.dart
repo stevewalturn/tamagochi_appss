@@ -3,6 +3,7 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tamagochi_appss/app/app.dialogs.dart';
 import 'package:tamagochi_appss/app/app.locator.dart';
+import 'package:tamagochi_appss/enums/bottom_sheet_type.dart';
 import 'package:tamagochi_appss/models/pet.dart';
 import 'package:tamagochi_appss/services/pet_service.dart';
 

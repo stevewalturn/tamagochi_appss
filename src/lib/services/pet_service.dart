@@ -2,11 +2,10 @@ import 'package:stacked/stacked.dart';
 import 'package:tamagochi_appss/models/enums/pet_type.dart';
 import 'package:tamagochi_appss/models/pet.dart';
 
-class PetService implements InitializableDependency {
+class PetService {
   Pet? _currentPet;
   Pet? get currentPet => _currentPet;
 
-  @override
   Future<void> init() async {
     // Initialize service - could load saved pet from storage in the future
   }
